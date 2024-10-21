@@ -6,22 +6,33 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1
 {
-    internal class Huesped
+    internal class Huesped : Persona
     {
         private int ID = 1;
 
         public int IdHuesped {  get; private set; }
-        public string? Nombre { get; set; }
-        public string? Apellido1 { get; set; }
-        public string? Apellido2 { get; set; }
         public string? TipoDocumento {  get; set; }
         public int NumDocumento { get; set; }
-        public string? FechaNacimiento { get; set; }
         public int Telefono {  get; set; }
         public string? CorreoElec { get; set; }
-        public string? PaisOrigen {  get; set; }
 
-        public Huesped() { }
+        public Huesped(string nombre, string apellidos, string fechaNacimiento, string paisOrigen, string tipoDocumento, int numDocumento, int telefono, string correoElec) : base(nombre, apellidos, fechaNacimiento, paisOrigen)
+        {
+            IdHuesped = ID++;
+            TipoDocumento = tipoDocumento;
+            NumDocumento = numDocumento;
+            Telefono = telefono;
+            CorreoElec = correoElec;
+        }
 
+        internal static void IngresarDatos(string nombre, string apellidos, string fechaNacimientoS, string paisOrigen, string tipoDocumento, int numDocumento, int telefono, string correoElec, string contrasenia)
+        {
+            /*DateOnly fechaNacimiento = new DateOnly();
+            fechaNacimiento = DateOnly.Parse(fechaNacimientoS);*/ //pasar la fecha de nacimiento a DateOnly?
+            Huesped newHuesped = new Huesped(nombre, apellidos, fechaNacimientoS, paisOrigen, tipoDocumento, numDocumento, telefono, correoElec);
+            Usuario newUsuario = new Usuario(nombre, correoElec, contrasenia);
+
+            
+        }
     }
 }

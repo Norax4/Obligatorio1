@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace Obligatorio1
 {
-    internal class Usuario : Huesped
+    internal class Usuario
     {
-        static int IdHuesped;
-        public string? CorreoElec {  get; set; }
-        public string? Contraseña { get; set; }
-        public int Tarifa { get; set; }
+        private int ID = 1001;
+
+        public int IdUsuario { get; private set; }
+        public string? Nombre { get; set; }
+        public string? CorreoElec { get; set; }
+        public string? Contrasenia { get; set; }
+
+        public Usuario(string nombre, string correoElec, string contrasenia)
+        {
+            IdUsuario = ID++;
+            Nombre = nombre;
+            CorreoElec = correoElec;
+            Contrasenia = contrasenia;
+        }
     }
 }
