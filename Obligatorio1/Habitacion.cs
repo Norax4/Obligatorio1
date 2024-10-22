@@ -13,7 +13,7 @@ namespace Obligatorio1
         public int CantidadPersonas { get; set; }
         public int Tarifa { get; private set; }
         public bool Estado { get; set; }
-        public int countReservas = 0;
+        public List<DateOnly> FechasReservadas { get; set; }
 
         public Habitacion(int numHabitacion, string tipoHabitacion, int cantidadPersonas)
         {
@@ -31,9 +31,15 @@ namespace Obligatorio1
                 Tarifa = 200;
             }
             Estado = false;
+            FechasReservadas = new List<DateOnly>();
         }
 
-        internal static void ListarHabitaciones()
+        public override string ToString()
+        {
+            return "";
+        }
+
+        internal static void ListarHabitaciones() //Deberia ir en una clase de gestion
         {
 
         }

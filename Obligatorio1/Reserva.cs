@@ -11,20 +11,20 @@ namespace Obligatorio1
         private int AutoID = 1001;
 
         public int IdReserva { get; private set; }
-        public int IdHuesped { get; private set; }
-        public int NumHabitacion { get; set; }
-        public string? FechaInicio { get; set; }
-        public string? FechaFinal { get; set; }
-        public string? FechaReserva { get; set; }
+        public Huesped Huesped { get; set; }
+        public Habitacion HabitacionElegida { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFinal { get; set; }
+        public DateTime FechaReserva { get; private set; }
 
-        public Reserva(int idHuesped, int numHabitacion, string fechaInicio, string fechaFinal, string fechaReserva)
+        public Reserva(Huesped huesped, Habitacion habitacion, DateTime fechaInicio, DateTime fechaFinal)
         {
             IdReserva = AutoID++;
-            IdHuesped = idHuesped;
-            NumHabitacion = numHabitacion;
+            Huesped = huesped;
+            HabitacionElegida = habitacion;
             FechaInicio = fechaInicio;
             FechaFinal = fechaFinal;
-            FechaReserva = fechaReserva;
+            FechaReserva = DateTime.Now;
         }
 
         internal static void ReservarHabitacion()

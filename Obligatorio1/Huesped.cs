@@ -24,15 +24,5 @@ namespace Obligatorio1
             Telefono = telefono;
             CorreoElec = correoElec;
         }
-
-        internal static void IngresarDatos(string nombre, string apellidos, string fechaNacimientoS, string paisOrigen, string tipoDocumento, int numDocumento, int telefono, string correoElec, string contrasenia)
-        {
-            /*DateOnly fechaNacimiento = new DateOnly();
-            fechaNacimiento = DateOnly.Parse(fechaNacimientoS);*/ //pasar la fecha de nacimiento a DateOnly?
-            Huesped newHuesped = new Huesped(nombre, apellidos, fechaNacimientoS, paisOrigen, tipoDocumento, numDocumento, telefono, correoElec);
-            Usuario newUsuario = new Usuario(nombre, correoElec, contrasenia);
-
-            
-        }
     }
 }

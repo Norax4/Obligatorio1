@@ -90,9 +90,9 @@ namespace Obligatorio1
                     
                 } while (String.IsNullOrWhiteSpace(nombre) && String.IsNullOrWhiteSpace(apellidos) && String.IsNullOrWhiteSpace(fechaNacimientoS) && String.IsNullOrWhiteSpace(paisOrigen) && String.IsNullOrWhiteSpace(tipoDoc) && String.IsNullOrWhiteSpace(numDocS) && String.IsNullOrWhiteSpace(telefonoS));
                 
-                if (int.TryParse(numDocS, out numDoc) && int.TryParse(telefonoS, out telefono))
+                if (!int.TryParse(numDocS, out numDoc) && !int.TryParse(telefonoS, out telefono))
                 {
-
+                    Console.WriteLine("El numero de su documento o el telefono no pueden tener carácteres alfabeticos");
                 }
             } while (!int.TryParse(numDocS, out numDoc) && !int.TryParse(telefonoS, out telefono));
             
