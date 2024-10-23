@@ -9,7 +9,7 @@ namespace Obligatorio1
 {
     internal class Menu
     {
-        internal static void InicioSesion(Dictionary<string, Usuario> dictionary)
+        internal static void InicioSesion(Dictionary<int, Usuario> dictionary, List<Habitacion> lista)
         {
             Console.Clear();
             Console.WriteLine("Inicio de sesion");
@@ -31,7 +31,7 @@ namespace Obligatorio1
                     {
                         if (correo == user.CorreoElec && contrasenia == user.Contrasenia)
                         {
-                            MenuPrincipal();
+                            MenuPrincipal(user, lista);
                         }
                     }
                 } else
@@ -43,63 +43,17 @@ namespace Obligatorio1
             } while (String.IsNullOrWhiteSpace(correo) || String.IsNullOrWhiteSpace(contrasenia));
         }
 
-        internal static void Registro(List<Huesped> lista, Dictionary<string, Usuario> dict)
+        internal static void Registro(List<Huesped> lista, Dictionary<int, Usuario> dict)
         {
             Console.Clear();
             Console.WriteLine("Escriba sus datos para llevar a cabo el registro:");
 
-            string? nombre;
-            string? apellidos;
-            string? fechaNacimientoS;
-            string? paisOrigen;
-            string? tipoDoc;
-            string? numDocS;
-            string? telefonoS;
-            int numDoc;
-            int telefono;
+            GestionHuespedes.IngresarDatos(lista, dict);
 
-            do
-            {
-                do
-                {
-                    Console.WriteLine("Ingrese su nombre:");
-                    nombre = Console.ReadLine();
-
-                    Console.WriteLine("\n Ingrese sus apellidos:");
-                    apellidos = Console.ReadLine();
-
-                    Console.WriteLine("\n Ingrese su fecha de nacimiento (dia/mes/año):");
-                    fechaNacimientoS = Console.ReadLine();
-
-                    Console.WriteLine("\n Ingrese su pais de origen:");
-                    paisOrigen = Console.ReadLine();
-
-                    Console.WriteLine("\n Ingrese su tipo de documento:");
-                    tipoDoc = Console.ReadLine();
-
-                    Console.WriteLine("\n Ingrese el numero de su documento:");
-                    numDocS = Console.ReadLine();
-
-                    Console.WriteLine("\n Ingrese su telefono:");
-                    telefonoS = Console.ReadLine();
-
-                    if (String.IsNullOrWhiteSpace(nombre) && String.IsNullOrWhiteSpace(apellidos) && String.IsNullOrWhiteSpace(fechaNacimientoS) && String.IsNullOrWhiteSpace(paisOrigen) && String.IsNullOrWhiteSpace(tipoDoc) && String.IsNullOrWhiteSpace(numDocS) && String.IsNullOrWhiteSpace(telefonoS))
-                    {
-                        Console.WriteLine("No puede ingresar espacios en blanco o valores nulos. Intente nuevamente.");
-                    }
-                    
-                } while (String.IsNullOrWhiteSpace(nombre) && String.IsNullOrWhiteSpace(apellidos) && String.IsNullOrWhiteSpace(fechaNacimientoS) && String.IsNullOrWhiteSpace(paisOrigen) && String.IsNullOrWhiteSpace(tipoDoc) && String.IsNullOrWhiteSpace(numDocS) && String.IsNullOrWhiteSpace(telefonoS));
-                
-                if (!int.TryParse(numDocS, out numDoc) && !int.TryParse(telefonoS, out telefono))
-                {
-                    Console.WriteLine("El numero de su documento o el telefono no pueden tener carácteres alfabeticos");
-                }
-            } while (!int.TryParse(numDocS, out numDoc) && !int.TryParse(telefonoS, out telefono));
-            
-
+            Console.WriteLine("Registro completado. Inicie sesión en el sistema.");
         }
 
-        internal static void MenuPrincipal()
+        internal static void MenuPrincipal(Usuario user, List<Habitacion> lista)
         {
             bool salir = false;
 
@@ -117,13 +71,13 @@ namespace Obligatorio1
                 switch (option)
                 {
                     case "1":
-                        Habitacion.ListarHabitaciones();
+                        GestionHabitaciones.ListarHabitaciones(lista);
                         break;
                     case "2":
-                        Reserva.ReservarHabitacion();
+                        GestionReservas.ReservarHabitacion(user);
                         break;
                     case "3":
-                        Reserva.ReservasPerfil();
+                        GestionReservas.ReservasPerfil(user);
                         break;
                     case "4":
                         salir = true;

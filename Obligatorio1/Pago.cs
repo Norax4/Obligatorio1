@@ -19,7 +19,6 @@ namespace Obligatorio1
         public Pago(int idReserva, string fechaPago, int monto, string metodoPago, string realizacionPago)
         {
             IdPago = AutoID++;
-            //foreach recorrido de lista de reservas para comprobar id ?
             IdReserva = idReserva;
             FechaPago = fechaPago;
             Monto = monto;

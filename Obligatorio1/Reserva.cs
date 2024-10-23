@@ -27,14 +27,9 @@ namespace Obligatorio1
             FechaReserva = DateTime.Now;
         }
 
-        internal static void ReservarHabitacion()
+        public override string ToString()
         {
-
-        }
-
-        internal static void ReservasPerfil()
-        {
-
+            return "";
         }
     }
 }

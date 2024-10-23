@@ -14,6 +14,7 @@ namespace Obligatorio1
         public string? Nombre { get; set; }
         public string? CorreoElec { get; set; }
         public string? Contrasenia { get; set; }
+        public List<Reserva> Reservas { get; set; }
 
         public Usuario(string nombre, string correoElec, string contrasenia)
         {
@@ -21,6 +22,7 @@ namespace Obligatorio1
             Nombre = nombre;
             CorreoElec = correoElec;
             Contrasenia = contrasenia;
+            Reservas = new List<Reserva>();
         }
     }
 }
