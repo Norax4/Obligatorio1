@@ -16,6 +16,8 @@ namespace Obligatorio1
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFinal { get; set; }
         public DateTime FechaReserva { get; private set; }
+        public Pago pagoReserva { get; set; }
+        public bool Pagada = false;
 
         public Reserva(Huesped huesped, Habitacion habitacion, DateTime fechaInicio, DateTime fechaFinal)
         {
@@ -29,7 +31,7 @@ namespace Obligatorio1
 
         public override string ToString()
         {
-            return "";
+            return $"{IdReserva}. Habitacion: {HabitacionElegida}, Duracion: {FechaInicio} - {FechaFinal}. \n Fecha de la reserva: {FechaReserva}";
         }
     }
 }

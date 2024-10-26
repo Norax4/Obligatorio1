@@ -19,30 +19,29 @@ namespace Obligatorio1
             return huespedes;
         }
 
-        public static Dictionary<int, Usuario> CargaUsuarios(List<Huesped> lista)
+        public static List<Usuario> CargaUsuarios(List<Huesped> lista)
         {
-            Dictionary<int, Usuario> dict = new Dictionary<int, Usuario>();
-
+            List<Usuario> usuarios = new List<Usuario>();
             for (int i = 0; i < lista.Count; i++)
             {
                 if (i == 0) {
-                    Usuario newUsuario = new Usuario(lista[i].Nombre, lista[i].CorreoElec, "199824Gar");
-                    dict.Add(lista[i].IdHuesped, newUsuario);
+                    Usuario newUsuario = new Usuario(lista[i], lista[i].Nombre, lista[i].CorreoElec, "199824Gar");
+                    usuarios.Add(newUsuario);
                 } else if (i == 1)
                 {
-                    Usuario newUsuario = new Usuario(lista[i].Nombre, lista[i].CorreoElec, "198727Mar");
-                    dict.Add(lista[i].IdHuesped, newUsuario);
+                    Usuario newUsuario = new Usuario(lista[i], lista[i].Nombre, lista[i].CorreoElec, "198727Mar");
+                    usuarios.Add(newUsuario);
                 } else
                 {
-                    Usuario newUsuario = new Usuario(lista[i].Nombre, lista[i].CorreoElec, "200103JiAr");
-                    dict.Add(lista[i].IdHuesped, newUsuario);
+                    Usuario newUsuario = new Usuario(lista[i], lista[i].Nombre, lista[i].CorreoElec, "200103JiAr");
+                    usuarios.Add(newUsuario);
                 }
             }
 
-            return dict;
+            return usuarios;
         }
 
-        public static void IngresarDatos(List<Huesped> list, Dictionary<int, Usuario> dict)
+        public static void IngresarDatos(List<Huesped> list, List<Usuario> users)
         {
             string? nombre;
             string? apellidos;
@@ -51,7 +50,7 @@ namespace Obligatorio1
             string? tipoDoc;
             string? numDocS;
             string? telefonoS;
-            int telefono;
+            int telefono = 0;
             int numDoc;
             string? correoElec;
             string? contrasenia;
@@ -112,9 +111,9 @@ namespace Obligatorio1
             } while (String.IsNullOrWhiteSpace(contrasenia) && contrasenia.Length < 8);
 
             Huesped newHuesped = new Huesped(nombre, apellidos, fechaNacimientoS, paisOrigen, tipoDoc, numDoc, telefono, correoElec);
-            Usuario newUsuario = new Usuario(nombre, correoElec, contrasenia);
+            Usuario newUsuario = new Usuario(newHuesped, nombre, correoElec, contrasenia);
             list.Add(newHuesped);
-            dict.Add(newHuesped.IdHuesped, newUsuario);
+            users.Add(newUsuario);
             
         }
     }

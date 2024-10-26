@@ -9,21 +9,21 @@ namespace Obligatorio1
     internal class Pago
     {
         private int AutoID = 1001;
-        public int IdReserva {  get; set; }
+        public Reserva Reserva {  get; set; }
         public int IdPago {  get; private set; }
-        public string? FechaPago { get; set; }
+        public DateTime FechaPago { get; set; }
         public int Monto { get; set; }
         public string? MetodoPago { get; set; }
-        public string? RealizacionPago { get; set; }
+        public bool RealizacionPago { get; set; }
 
-        public Pago(int idReserva, string fechaPago, int monto, string metodoPago, string realizacionPago)
+        public Pago(Reserva reserva, DateTime fechaPago, int monto, string metodoPago)
         {
             IdPago = AutoID++;
-            IdReserva = idReserva;
+            Reserva = reserva;
             FechaPago = fechaPago;
             Monto = monto;
             MetodoPago = metodoPago;
-            RealizacionPago = realizacionPago;
+            RealizacionPago = false;
         }
     }
 }

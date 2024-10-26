@@ -4,12 +4,11 @@ using Obligatorio1;
 
 List<Huesped> huespedes = GestionHuespedes.CargaHuespedes();
 
-Dictionary<int, Usuario> usuarios = GestionHuespedes.CargaUsuarios(huespedes);
-
-List<Reserva> reservas = new List<Reserva>();
+List<Usuario> usuarios = GestionHuespedes.CargaUsuarios(huespedes);
 
 List<Habitacion> habitaciones = GestionHabitaciones.CargaHabitaciones(); //YUJU- recuerda borrar estos comentarios al entregar
 
+List<Reserva> reservas = GestionReservas.CargaReservas(habitaciones, usuarios);
 
 bool salir = false;
 

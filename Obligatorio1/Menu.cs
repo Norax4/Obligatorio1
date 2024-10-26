@@ -9,7 +9,7 @@ namespace Obligatorio1
 {
     internal class Menu
     {
-        internal static void InicioSesion(Dictionary<int, Usuario> dictionary, List<Habitacion> lista)
+        internal static void InicioSesion(List<Usuario> users, List<Habitacion> lista)
         {
             Console.Clear();
             Console.WriteLine("Inicio de sesion");
@@ -27,7 +27,7 @@ namespace Obligatorio1
 
                 if (!String.IsNullOrWhiteSpace(correo) && !String.IsNullOrWhiteSpace(contrasenia))
                 {
-                    foreach (Usuario user in dictionary.Values)
+                    foreach (Usuario user in users)
                     {
                         if (correo == user.CorreoElec && contrasenia == user.Contrasenia)
                         {
@@ -37,18 +37,27 @@ namespace Obligatorio1
                 } else
                 {
                     Console.WriteLine("El correo o contraseña no pueden ser valores nulos o espacios vacios. Para intentar nuevamente presione '1'. Para recuperar su contraseña, presione '2'.");
-                    //recuperacion de contraseña
+                    string? obtain = Console.ReadLine();
+                    if (obtain == "2")
+                    {
+                        Console.WriteLine("--- Recuperacion de contraseña ---");
+                        Console.WriteLine("\n Ingrese su Correo Electronico:");
+                        string? correoRec = Console.ReadLine();
+
+                        Console.WriteLine("Se enviará un correo para la recuperación de su contraseña.");
+                        //File.CreateText(@"");
+                    }
                 }
 
             } while (String.IsNullOrWhiteSpace(correo) || String.IsNullOrWhiteSpace(contrasenia));
         }
 
-        internal static void Registro(List<Huesped> lista, Dictionary<int, Usuario> dict)
+        internal static void Registro(List<Huesped> lista, List<Usuario> users)
         {
             Console.Clear();
             Console.WriteLine("Escriba sus datos para llevar a cabo el registro:");
 
-            GestionHuespedes.IngresarDatos(lista, dict);
+            GestionHuespedes.IngresarDatos(lista, users);
 
             Console.WriteLine("Registro completado. Inicie sesión en el sistema.");
         }
@@ -59,22 +68,23 @@ namespace Obligatorio1
 
             while (!salir)
             {
-                Console.WriteLine("Bienvenido. \n");
-                Console.WriteLine("Menú Principal \n");
+                Console.WriteLine($"--- Bienvenido/a, {user} ---\n");
+                Console.WriteLine("--- Menú Principal ---\n");
                 Console.WriteLine("1. Lista de Habitaciones");
                 Console.WriteLine("2. Reservar una habitación");
                 Console.WriteLine("3. Ver reservas en su perfil");
-                Console.WriteLine("4. Salir \n");
+                Console.WriteLine("4. Salir");
+                Console.WriteLine("--- Fin de la lista --- \n");
                 Console.WriteLine("Ingrese la opción deseada:");
                 string? option = Console.ReadLine();
 
                 switch (option)
                 {
                     case "1":
-                        GestionHabitaciones.ListarHabitaciones(lista);
+                        GestionHabitaciones.ListarHabitaciones(user, lista);
                         break;
                     case "2":
-                        GestionReservas.ReservarHabitacion(user);
+                        GestionReservas.ReservarHabitacion(user, lista);
                         break;
                     case "3":
                         GestionReservas.ReservasPerfil(user);

@@ -11,14 +11,16 @@ namespace Obligatorio1
         private int ID = 1001;
 
         public int IdUsuario { get; private set; }
+        public Huesped Huesped { get; set; }
         public string? Nombre { get; set; }
         public string? CorreoElec { get; set; }
         public string? Contrasenia { get; set; }
         public List<Reserva> Reservas { get; set; }
 
-        public Usuario(string nombre, string correoElec, string contrasenia)
+        public Usuario(Huesped huesped, string nombre, string correoElec, string contrasenia)
         {
             IdUsuario = ID++;
+            Huesped = huesped;
             Nombre = nombre;
             CorreoElec = correoElec;
             Contrasenia = contrasenia;
