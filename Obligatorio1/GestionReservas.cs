@@ -102,12 +102,15 @@ namespace Obligatorio1
 
         public static void ModificarReserva(Usuario user)
         {
+            Console.WriteLine("Ingrese el numero de la reserva que quiere modificar:");
+            string? numResString = Console.ReadLine();
+            int numRes = int.Parse(numResString);
 
         }
 
         public static void CancelarReserva(Usuario user)
         {
-            Console.WriteLine("Ingrese el numero de la reserva:");
+            Console.WriteLine("Ingrese el numero de la reserva que quiere cancelar:");
             string? numResString = Console.ReadLine();
             int numRes = int.Parse(numResString);
 
@@ -118,7 +121,7 @@ namespace Obligatorio1
                 {
                     if (reserva.FechaInicio >= DateTime.Now)
                     {
-                        Console.WriteLine("Lo sentimos. No puede cancelar la reserva debido a que ya transcurrio la fecha reservada.");
+                        Console.WriteLine("Lo sentimos. No puede cancelar la reserva debido a que ya transcurrio la fecha limite   .");
                     }
                     else
                     {
