@@ -31,7 +31,7 @@ namespace Obligatorio1
 
         public override string ToString()
         {
-            return $"{IdReserva}. Habitacion: {HabitacionElegida}, Duracion: {FechaInicio} - {FechaFinal}. \n Fecha de la reserva: {FechaReserva}";
+            return $"{IdReserva}. Habitacion: {HabitacionElegida}, Duracion: {FechaInicio} - {FechaFinal}. \n Fecha de la reserva: {FechaReserva} \n Pago: {pagoReserva}";
         }
     }
 }
