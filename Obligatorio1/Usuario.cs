@@ -26,10 +26,5 @@ namespace Obligatorio1
             Contrasenia = contrasenia;
             Reservas = new List<Reserva>();
         }
-
-        public override string ToString()
-        {
-            return $"{Nombre}";
-        }
     }
 }

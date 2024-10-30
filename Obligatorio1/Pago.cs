@@ -25,10 +25,5 @@ namespace Obligatorio1
             MetodoPago = metodoPago;
             RealizacionPago = false;
         }
-
-        public override string ToString()
-        {
-            return $"{IdPago}, Fecha del Pago: {FechaPago}, Monto: {Monto}, Metodo de Pago: {MetodoPago}";
-        }
     }
 }

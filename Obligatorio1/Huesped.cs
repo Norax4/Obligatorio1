@@ -8,7 +8,7 @@ namespace Obligatorio1
 {
     internal class Huesped : Persona
     {
-        private static int ID = 1;
+        private int ID = 1;
 
         public int IdHuesped {  get; private set; }
         public string? TipoDocumento {  get; set; }
@@ -23,11 +23,6 @@ namespace Obligatorio1
             NumDocumento = numDocumento;
             Telefono = telefono;
             CorreoElec = correoElec;
-        }
-
-        public override string ToString()
-        {
-            return $"{Nombre} {Apellidos}, Cumpleaños: {FechaNacimiento}, Pais: {PaisOrigen}, Documento: {TipoDocumento} - {NumDocumento}, Telefono: {Telefono}, Correo: {CorreoElec}";
         }
     }
 }

@@ -62,36 +62,6 @@ namespace Obligatorio1
             Console.WriteLine("Registro completado. Inicie sesión en el sistema.");
         }
 
-        internal static void Estadisticas(List<Usuario> users, List<Habitacion> habitaciones)
-        {
-            Console.Clear();
-            Console.WriteLine("--- Estadisticas del sistema ---");
-
-            Console.WriteLine("1. Listado de Huespedes.");
-            Console.WriteLine("2. Habitaciones libres.");
-            Console.WriteLine("3. Reservas por habitacion. \n");
-            Console.WriteLine("Ingrese la opción deseada:");
-            string? option = Console.ReadLine();
-
-            switch (option)
-            {
-                case "1":
-                    GestionHuespedes.ListaHuespedes(users);
-                    break;
-                case "2":
-                    GestionHabitaciones.ListarHabitaciones(habitaciones);
-                    break;
-                case "3":
-                    GestionHabitaciones.HabitacionesReservas(habitaciones);
-                    break;
-                default:
-                    Console.WriteLine("La opción es invalida. Presione una tecla e intente nuevamente.");
-                    Console.ReadKey();
-                    break;
-
-            }
-        }
-
         internal static void MenuPrincipal(Usuario user, List<Habitacion> lista)
         {
             bool salir = false;

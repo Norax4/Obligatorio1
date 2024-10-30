@@ -18,8 +18,7 @@ while (!salir)
     Console.WriteLine("");
     Console.WriteLine("1. Iniciar Sesion");
     Console.WriteLine("2. Registrarse");
-    Console.WriteLine("3. Estadisticas");
-    Console.WriteLine("4. Salir");
+    Console.WriteLine("3. Salir");
     Console.WriteLine("");
     Console.WriteLine("Ingrese la opción deseada:");
     string? option = Console.ReadLine();
@@ -33,9 +32,6 @@ while (!salir)
             Menu.Registro(huespedes, usuarios);
             break;
         case "3":
-            Menu.Estadisticas(usuarios, habitaciones);
-            break;
-        case "4":
             salir = true;
             break;
         default:

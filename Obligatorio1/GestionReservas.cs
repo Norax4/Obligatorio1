@@ -11,26 +11,9 @@ namespace Obligatorio1
         //Precarga de Reservas
         public static List<Reserva> CargaReservas(List<Habitacion> habitaciones, List<Usuario> usuarios)
         {
-            DateTime fechaInicio = new DateTime(27 / 12 / 2024);
-            DateTime fechaFinal = new DateTime(12 / 1 / 2025);
-            for (int i = 0; i < usuarios.Count; i++)
+            foreach (var user in usuarios)
             {
-                if (i == 0)
-                { 
-                    Reserva newReserva = new Reserva(usuarios[i].Huesped, habitaciones[2], fechaInicio, fechaFinal);
-                    habitaciones[2].countReservas += 1;
-                    usuarios[i].Reservas.Add(newReserva);
-                } else if (i == 1)
-                {
-                    Reserva newReserva = new Reserva(usuarios[i].Huesped, habitaciones[4], fechaInicio, fechaFinal);
-                    habitaciones[4].countReservas += 1;
-                    usuarios[i].Reservas.Add(newReserva);
-                } else
-                {
-                    Reserva newReserva = new Reserva(usuarios[i].Huesped, habitaciones[8], fechaInicio, fechaFinal);
-                    habitaciones[8].countReservas += 1;
-                    usuarios[i].Reservas.Add(newReserva);
-                }
+
             }
 
             List<Reserva> reservas = new List<Reserva>();
@@ -69,8 +52,6 @@ namespace Obligatorio1
                     else if (fechaInicio.AddDays(30.00) > fechaSalida)
                     { 
                         Console.WriteLine("Lo sentimos. No puede hacer reservas de un lapso de tiempo mayor a 30 dias.");
-                    } else if () {
-
                     }*/ else 
                     {
                         string? response;
@@ -115,9 +96,6 @@ namespace Obligatorio1
                             }
                         } while (response.ToLower() != "si" || response.ToLower() != "no");
                     }
-                } else
-                {
-                    Console.WriteLine("La habitacion que esta buscando no existe");
                 }
             }
         }

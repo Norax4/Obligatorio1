@@ -86,57 +86,5 @@ namespace Obligatorio1
                 
             } while (!salir);
         }
-
-        //Listado de habitaciones libres para las estadisticas
-        public static void ListarHabitaciones(List<Habitacion> lista)
-        {
-            bool salir = false;
-
-            do
-            {
-                Console.WriteLine("--- Habitaciones Libres ---");
-
-                foreach (var habitacion in lista)
-                {
-                    if (!habitacion.Estado)
-                    {
-                        Console.WriteLine(habitacion);
-                    }
-                }
-                Console.WriteLine("--- Fin de la Lista ---");
-                Console.WriteLine("Si desea salir, presione '1'.");
-                string? obtain = Console.ReadLine();
-
-                if (obtain == "1")
-                {
-                    salir = true;
-                }
-            } while (!salir);
-        }
-
-        //Listado de habitaciones de más a menos reservadas
-        public static void HabitacionesReservas(List<Habitacion> habitaciones)
-        {
-            bool salir = false;
-            Console.Clear();
-            //List<Habitacion> sortedHabs = habitaciones.OrderBy(h => h.countReservas);
-            do
-            {
-                Console.WriteLine("--- Cantidad de reservas por habitacion ---");
-
-                Console.WriteLine("--- Fin de la Lista ---");
-                Console.WriteLine("\n Si quiere salir, presione '1'.");
-                string? option = Console.ReadLine();
-
-                if (option == "1")
-                {
-                    salir= true;
-                } else
-                {
-                    Console.WriteLine("La opción es invalida. Presione una tecla para intentar nuevamente.");
-                    Console.ReadKey();
-                }
-            } while (!salir);
-        }
     }
 }
