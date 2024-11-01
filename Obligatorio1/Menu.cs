@@ -27,26 +27,19 @@ namespace Obligatorio1
 
                 if (!String.IsNullOrWhiteSpace(correo) && !String.IsNullOrWhiteSpace(contrasenia))
                 {
-                    foreach (Usuario user in users)
-                    {
-                        if (correo == user.CorreoElec && contrasenia == user.Contrasenia)
+                    
+                        foreach (Usuario user in users)
                         {
-                            MenuPrincipal(user, lista);
+                            if (correo == user.CorreoElec && contrasenia == user.Contrasenia)
+                            {
+                                MenuPrincipal(user, lista);
+                            }
                         }
-                    }
-                } else
-                {
-                    Console.WriteLine("El correo o contraseña no pueden ser valores nulos o espacios vacios. Para intentar nuevamente presione '1'. Para recuperar su contraseña, presione '2'.");
-                    string? obtain = Console.ReadLine();
-                    if (obtain == "2")
-                    {
-                        Console.WriteLine("--- Recuperacion de contraseña ---");
-                        Console.WriteLine("\n Ingrese su Correo Electronico:");
-                        string? correoRec = Console.ReadLine();
-
-                        Console.WriteLine("Se enviará un correo para la recuperación de su contraseña.");
-                        //File.CreateText(@"");
-                    }
+                } else 
+                { 
+                    Console.WriteLine("El correo o contraseña no pueden ser valores nulos o espacios vacios.");
+                    Console.WriteLine("Presione una tecla para intentar nuevamente.");
+                    Console.ReadKey();
                 }
 
             } while (String.IsNullOrWhiteSpace(correo) || String.IsNullOrWhiteSpace(contrasenia));
@@ -60,6 +53,36 @@ namespace Obligatorio1
             GestionHuespedes.IngresarDatos(lista, users);
 
             Console.WriteLine("Registro completado. Inicie sesión en el sistema.");
+        }
+
+        internal static void Estadisticas(List<Usuario> users, List<Habitacion> habitaciones)
+        {
+            Console.Clear();
+            Console.WriteLine("--- Estadisticas del sistema ---");
+
+            Console.WriteLine("1. Listado de Huespedes.");
+            Console.WriteLine("2. Habitaciones libres.");
+            Console.WriteLine("3. Reservas por habitacion. \n");
+            Console.WriteLine("Ingrese la opción deseada:");
+            string? option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    GestionHuespedes.ListarHuespedes(users);
+                    break;
+                case "2":
+                    GestionHabitaciones.ListarHabitaciones(habitaciones);
+                    break;
+                case "3":
+                    GestionHabitaciones.HabitacionesReservas(habitaciones);
+                    break;
+                default:
+                    Console.WriteLine("La opción es invalida. Presione una tecla e intente nuevamente.");
+                    Console.ReadKey();
+                    break;
+
+            }
         }
 
         internal static void MenuPrincipal(Usuario user, List<Habitacion> lista)
@@ -87,7 +110,7 @@ namespace Obligatorio1
                         GestionReservas.ReservarHabitacion(user, lista);
                         break;
                     case "3":
-                        GestionReservas.ReservasPerfil(user);
+                        GestionReservas.ReservasPerfil(user, lista);
                         break;
                     case "4":
                         salir = true;

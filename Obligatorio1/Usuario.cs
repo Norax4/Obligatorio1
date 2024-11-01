@@ -8,7 +8,7 @@ namespace Obligatorio1
 {
     internal class Usuario
     {
-        private int ID = 1001;
+        private static int ID = 1001;
 
         public int IdUsuario { get; private set; }
         public Huesped Huesped { get; set; }
@@ -25,6 +25,11 @@ namespace Obligatorio1
             CorreoElec = correoElec;
             Contrasenia = contrasenia;
             Reservas = new List<Reserva>();
+        }
+
+        public override string ToString()
+        {
+            return $"{Nombre}";
         }
     }
 }

@@ -8,15 +8,15 @@ namespace Obligatorio1
 {
     internal class Pago
     {
-        private int AutoID = 1001;
-        public Reserva Reserva {  get; set; }
+        private static int AutoID = 1001;
+        public int Reserva {  get; set; }
         public int IdPago {  get; private set; }
         public DateTime FechaPago { get; set; }
         public int Monto { get; set; }
         public string? MetodoPago { get; set; }
         public bool RealizacionPago { get; set; }
 
-        public Pago(Reserva reserva, DateTime fechaPago, int monto, string metodoPago)
+        public Pago(int reserva, DateTime fechaPago, int monto, string metodoPago)
         {
             IdPago = AutoID++;
             Reserva = reserva;
@@ -24,6 +24,11 @@ namespace Obligatorio1
             Monto = monto;
             MetodoPago = metodoPago;
             RealizacionPago = false;
+        }
+
+        public override string ToString()
+        {
+            return $"{IdPago}, Fecha del Pago: {FechaPago}, Monto: {Monto}, Metodo de Pago: {MetodoPago}";
         }
     }
 }

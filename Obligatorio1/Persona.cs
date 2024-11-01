@@ -10,10 +10,10 @@ namespace Obligatorio1
     {
         public string? Nombre { get; set; }
         public string? Apellidos { get; set; }
-        public string? FechaNacimiento { get; set; }
+        public DateTime FechaNacimiento { get; set; }
         public string? PaisOrigen { get; set; }
 
-        public Persona(string nombre, string apellidos, string fechaNacimiento, string paisOrigen)
+        public Persona(string nombre, string apellidos, DateTime fechaNacimiento, string paisOrigen)
         {
             Nombre = nombre;
             Apellidos = apellidos;

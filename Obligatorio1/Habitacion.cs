@@ -13,7 +13,7 @@ namespace Obligatorio1
         public int CantidadPersonas { get; set; }
         public int Tarifa { get; private set; }
         public bool Estado { get; set; }
-        public int countReservas = 0;
+        public int CountReservas = 0;
         public Dictionary<DateTime, DateTime> FechasReservadas { get; set; }
 
         public Habitacion(int numHabitacion, string tipoHabitacion, int cantidadPersonas)
