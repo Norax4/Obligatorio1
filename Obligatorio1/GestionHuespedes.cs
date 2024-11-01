@@ -195,15 +195,17 @@ namespace Obligatorio1
                 else if (contrasenia.Length < 8)
                 {
                     Console.WriteLine("La contraseña debe tener 8 caracteres cómo minimo");
+                } else
+                {
+                    //Creacion de huesped y usuario, adicion a las listas
+                    Huesped newHuesped = new Huesped(nombre, apellidos, DateTime.Parse(fechaNacimientoS), paisOrigen, tipoDoc, numDoc, telefono, correoElec);
+                    Usuario newUsuario = new Usuario(newHuesped, nombre, correoElec, contrasenia);
+                    list.Add(newHuesped);
+                    users.Add(newUsuario);
+                    Console.WriteLine("Registro completado. Inicie sesión con su nuevo usuario.");
                 }
             } while (String.IsNullOrWhiteSpace(contrasenia) && contrasenia.Length < 8);
 
-            //Creacion de objetos y adicion a las listas correspondientes
-            Huesped newHuesped = new Huesped(nombre, apellidos, DateTime.Parse(fechaNacimientoS), paisOrigen, tipoDoc, numDoc, telefono, correoElec);
-            Usuario newUsuario = new Usuario(newHuesped, nombre, correoElec, contrasenia);
-            list.Add(newHuesped);
-            users.Add(newUsuario);
-            
         }
     }
 }

@@ -52,7 +52,6 @@ namespace Obligatorio1
 
             GestionHuespedes.IngresarDatos(lista, users);
 
-            Console.WriteLine("Registro completado. Inicie sesión en el sistema.");
         }
 
         internal static void Estadisticas(List<Usuario> users, List<Habitacion> habitaciones)
