@@ -120,6 +120,7 @@ namespace Obligatorio1
                 }
                 Console.WriteLine("--- Fin de la Lista ---");
                 Console.WriteLine("Si desea salir, presione '1'.");
+                Console.WriteLine("\nIngrese la opción deseada:");
                 string? obtain = Console.ReadLine();
 
                 if (obtain == "1")
@@ -151,6 +152,7 @@ namespace Obligatorio1
 
                 Console.WriteLine("--- Fin de la Lista ---");
                 Console.WriteLine("\n Si quiere salir, presione '1'.");
+                Console.WriteLine("\nIngrese la opción deseada:");
                 string? option = Console.ReadLine();
 
                 if (option == "1")

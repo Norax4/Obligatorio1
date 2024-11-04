@@ -61,6 +61,7 @@ namespace Obligatorio1
 
                 Console.WriteLine("\n Si quiere salir, presione '1'.");
                 Console.WriteLine("Si quiere ver el historial de reservas de un huesped, presione '2'.");
+                Console.WriteLine("\nIngrese la opción deseada:");
                 string? option = Console.ReadLine();
 
                 if ( option == "1" )
@@ -82,31 +83,39 @@ namespace Obligatorio1
         {
             bool salir = false;
 
-            do
+            while (!salir) 
             {
                 Console.WriteLine("Ingrese el ID del huesped:");
                 string? idHuesped = Console.ReadLine();
-                int idHues = int.Parse(idHuesped);
 
-                if (users.Any(u => u.Huesped.IdHuesped == idHues))
+                Console.WriteLine("--- Reservas del huesped ---");
+                if (int.TryParse(idHuesped, out int idHues))
                 {
-                    Console.WriteLine("--- Reservas del huesped ---");
-                    foreach (Usuario user in users)
+                    if (users.Any(u => u.Huesped.IdHuesped == idHues))
                     {
-                        if (user.Huesped.IdHuesped == idHues)
+                        foreach (Usuario user in users)
                         {
-                            user.Reservas.ForEach(r => Console.WriteLine(r));
+                            if (user.Huesped.IdHuesped == idHues)
+                            {
+                                user.Reservas.ForEach(r => Console.WriteLine(r));
+                            }
                         }
+                        
                     }
-                    Console.WriteLine("--- Fin de la Lista ---");
+                    else
+                    {
+                        Console.WriteLine("El huesped que busca no existe en el sistema.");
+                    }
                 } else
                 {
-                    Console.WriteLine("El huesped que busca no existe en el sistema.");
+                    Console.WriteLine("El dato ingresado es inválido. Ingrese un número para identificar a un huesped.");
                 }
+                Console.WriteLine("--- Fin de la Lista ---");
 
-                
-                Console.WriteLine("\n Si quiere volver a buscar, presione '1'.");
+
+                Console.WriteLine("\nSi quiere volver a buscar, presione '1'.");
                 Console.WriteLine("Si quiere salir, presione '2'.");
+                Console.WriteLine("\nIngrese la opción deseada:");
                 string? option = Console.ReadLine();
 
                 switch (option)
@@ -122,7 +131,7 @@ namespace Obligatorio1
                         break;
                 }
 
-            } while (!salir);
+            }
         }
 
         //Ingreso de datos para el registro de nuevos usuarios
