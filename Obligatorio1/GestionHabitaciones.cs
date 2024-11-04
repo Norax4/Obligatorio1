@@ -37,6 +37,7 @@ namespace Obligatorio1
         //Listado de habitaciones segun datos ingresados por el usuario
         public static void ListarHabitaciones(Usuario user, List<Habitacion> lista)
         {
+            Console.Clear();
             bool salir = false;
 
             do
@@ -45,7 +46,6 @@ namespace Obligatorio1
                 Console.WriteLine("--- Ingrese los siguientes datos para encontrar la habitación perfecta para su estancia ---");
                 Console.WriteLine("Ingrese una fecha:");
                 string? fechaS = Console.ReadLine();
-                DateTime fecha = DateTime.Parse(fechaS);
 
                 Console.WriteLine("\n Ingrese el tipo (Simple, Doble, Suite):");
                 string? tipo = Console.ReadLine();
@@ -61,13 +61,28 @@ namespace Obligatorio1
                     capacidad = int.Parse(capacidadS);
                 }
 
-                //Busqueda de habitaciones segun fecha, tipo y capacidad
-                foreach (var habitacion in lista)
+
+                Console.WriteLine("--- Habitaciones posibles segun su busqueda ---");
+                if (DateTime.TryParse(fechaS, out DateTime fecha))
                 {
-                    if (!habitacion.FechasReservadas.ContainsKey(fecha) && habitacion.TipoHabitacion == tipo && habitacion.CantidadPersonas == capacidad)
+                    //Busqueda de habitaciones segun fecha, tipo y capacidad
+                    foreach (var habitacion in lista)
                     {
-                        Console.WriteLine(habitacion);
+                        if (!habitacion.FechasReservadas.ContainsKey(fecha) && habitacion.TipoHabitacion == tipo && habitacion.CantidadPersonas >= capacidad)
+                        {
+                            Console.WriteLine(habitacion);
+                        }
                     }
+                } else
+                {
+                    Console.WriteLine("La fecha ingresada es inválida. Ingrese una fecha válida.");
+                }
+                if (!lista.Any(h => h.TipoHabitacion == tipo))
+                {
+                    Console.WriteLine("El tipo de habitación ingresado no existe. Ingrese un tipo válido.");
+                } else if (lista.Any(h => h.TipoHabitacion == tipo) && !lista.Any(h => h.CantidadPersonas >= capacidad))
+                {
+                    Console.WriteLine("El tipo de habitación ingresado no puede contener la cantidad de personas que se busca. Intente con otro tipo.");
                 }
                 //Funciones
                 Console.WriteLine("--- Final de la lista ---");

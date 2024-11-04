@@ -27,7 +27,7 @@ namespace Obligatorio1
 
         public override string ToString()
         {
-            return $"{Nombre} {Apellidos}, Cumpleaños: {FechaNacimiento}, Pais: {PaisOrigen}, Documento: {TipoDocumento} - {NumDocumento}, Telefono: {Telefono}, Correo: {CorreoElec}";
+            return $"{Nombre} {Apellidos}, Cumpleaños: {FechaNacimiento}, Pais: {PaisOrigen}, Documento: {TipoDocumento} - {NumDocumento}, \nTelefono: {Telefono}, Correo: {CorreoElec}";
         }
     }
 }

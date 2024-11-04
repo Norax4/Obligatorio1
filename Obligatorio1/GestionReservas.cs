@@ -21,18 +21,22 @@ namespace Obligatorio1
                     Reserva newReserva = new Reserva(usuarios[i].Huesped, habitaciones[2], fechaInicio, fechaFinal);
                     habitaciones[2].CountReservas += 1;
                     habitaciones[2].Estado = true;
+                    newReserva.PagoReserva.MetodoPago = "Tarjeta";
                     usuarios[i].Reservas.Add(newReserva);
                 } else if (i == 1)
                 {
                     Reserva newReserva = new Reserva(usuarios[i].Huesped, habitaciones[4], fechaInicio, fechaFinal);
                     habitaciones[4].CountReservas += 1;
                     habitaciones[4].Estado = true;
+
+                    newReserva.PagoReserva.MetodoPago = "Durante Check-In";
                     usuarios[i].Reservas.Add(newReserva);
                 } else
                 {
                     Reserva newReserva = new Reserva(usuarios[i].Huesped, habitaciones[8], fechaInicio, fechaFinal);
                     habitaciones[8].CountReservas += 1;
                     habitaciones[8].Estado = true;
+                    newReserva.PagoReserva.MetodoPago = "Tarjeta";
                     usuarios[i].Reservas.Add(newReserva);
                 }
             }
@@ -42,6 +46,7 @@ namespace Obligatorio1
             return reservas;
         }
 
+        //Reserva de habitaciones
         public static void ReservarHabitacion(Usuario user, List<Habitacion> lista)
         {
             //Obteniendo datos del usuario
@@ -55,179 +60,374 @@ namespace Obligatorio1
             Console.WriteLine("\n Ingrese la fecha en la que se irá del hotel:");
             string? fechaS = Console.ReadLine();
 
+            //parseo de datos
             int numHab = int.Parse(numHabS);
-            DateTime fechaInicio = DateTime.Parse(fechaI);
-            DateTime fechaSalida = DateTime.Parse(fechaS);
-            double duracionReserva = (fechaSalida - fechaInicio).TotalDays;
             //Comprobaciones para crear la reserva
-            foreach (var hab in lista)
+            if (DateTime.TryParse(fechaI, out DateTime fechaInicio) && DateTime.TryParse(fechaS, out DateTime fechaSalida))
             {
-                //Si la habitacion existe/esta en la lista de habitaciones
-                if (hab.NumHabitacion == numHab)
+                double duracionReserva = (fechaSalida - fechaInicio).TotalDays;
+                foreach (var hab in lista)
                 {
-                    //Si la habitacion elegida ya tiene una reserva en la misma fecha
-                    if (hab.FechasReservadas.ContainsKey(fechaInicio))
+                    //Si la habitacion existe/esta en la lista de habitaciones
+                    if (hab.NumHabitacion == numHab)
                     {
-                        Console.WriteLine("Lo sentimos. La habitación ya fue reservada para esta fecha. ");
-                    } 
-                    //Si la fecha actual es mayor o igual a la ingresada para la llegada
-                    else if (fechaInicio <= DateTime.Now)
-                    {
-                        Console.WriteLine("No puede reservar para el mismo día o ingresar una fecha pasada.");
-                    } 
-                    // Si la fecha actual es mayor o igual a la ingresada para la salida
-                    else if (fechaSalida <= DateTime.Now)
-                    {
-                        Console.WriteLine("La fecha de salida no puede ser en el pasado.");
-                    } 
-                    //Si la fecha de llegada es mayor o igual a la fecha de salida
-                    else if (fechaSalida <= fechaInicio)
-                    {
-                        Console.WriteLine("La fecha de salida no puede ser anterior a la fecha de llegada");
-                    }
-                    //Si la reserva dura más de 30 dias
-                    else if (duracionReserva > 30)
-                    {
-                        Console.WriteLine("Lo sentimos. No puede hacer reservas de un lapso de tiempo mayor a 30 dias.");
-                    }
-                    else
-                    {
-                        //Si la reserva no existe en la lista, se ejecuta el tramite
-                        foreach (Reserva reserva in user.Reservas) {
-
-                            if (reserva.FechaInicio != fechaInicio || reserva.FechaFinal != fechaInicio)
+                        //Si la habitacion elegida ya tiene una reserva en la misma fecha
+                        if (!hab.FechasReservadas.ContainsKey(fechaInicio))
+                        {
+                            //Si la fecha actual es mayor o igual a la ingresada para la llegada
+                            if (fechaInicio <= DateTime.Now)
                             {
-                                Reserva newReserva = new Reserva(user.Huesped, hab, fechaInicio, fechaSalida);
-                                string? response;
-                                user.Reservas.Add(newReserva);
-                                hab.FechasReservadas.Add(fechaInicio, fechaSalida);
-                                hab.CountReservas += 1;
-                                do
-                                {
-                                    //Pago de la reserva
-                                    Console.WriteLine($"El pago es de: {hab.Tarifa * (int)duracionReserva}\n¿Desea realizar el pago de manera inmediata? Si no, se realizará cuando llegue al hotel:");
-                                    response = Console.ReadLine();
-
-                                    if (response.ToLower() == "si")
-                                    {
-                                        Console.WriteLine("Ingrese el numero de su tarjeta:");
-                                        Console.ReadLine();
-
-                                        //Comprobante de pago en consola
-                                        Console.WriteLine("...");
-                                        Console.ReadKey();
-                                        Console.WriteLine("...");
-                                        Console.ReadKey();
-                                        Console.WriteLine("...");
-                                        Console.ReadKey();
-
-                                        Console.WriteLine("--- Comprobante de Pago de la Reserva ---");
-                                        Console.WriteLine("Cliente:  " + user.Nombre + user.Huesped.Apellidos);
-                                        Console.WriteLine("Fecha de Emisión:  " + DateTime.Now);
-                                        Console.WriteLine("Monto del Pago:  $" + newReserva.PagoReserva.Monto);
-                                        Console.WriteLine("Código de transacción:  1111");
-
-
-                                        newReserva.PagoReserva.FechaPago = DateTime.Now;
-                                        newReserva.PagoReserva.MetodoPago = "Tarjeta";
-                                        newReserva.PagoReserva.RealizacionPago = true;
-
-                                        Console.WriteLine("Pago realizado.");
-                                        Console.WriteLine("Su reserva se ha registrado con exito.");
-                                    }
-                                    else if (response.ToLower() == "no")
-                                    {
-                                        newReserva.PagoReserva.MetodoPago = "Durante Check-In";
-                                        Console.WriteLine("El pago se realizará en la llegada al hotel.");
-                                        Console.WriteLine("Su reserva se ha registrado con exito.");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Por favor, responda 'si' o 'no' a la pregunta.");
-                                    }
-                                } while (response.ToLower() == "si" || response.ToLower() == "no");
+                                Console.WriteLine("No puede reservar para el mismo día o ingresar una fecha pasada.");
+                                Console.WriteLine("Presione una tecla para continuar");
+                                Console.ReadKey();
                             }
+                            //Si la fecha de llegada es mayor o igual a la fecha de salida
+                            else if (fechaSalida <= fechaInicio)
+                            {
+                                Console.WriteLine("La fecha de salida no puede ser anterior a la fecha de llegada");
+                                Console.WriteLine("Presione una tecla para continuar");
+                                Console.ReadKey();
+                            }
+                            //Si la reserva dura más de 30 dias
+                            else if (duracionReserva > 30)
+                            {
+                                Console.WriteLine("Lo sentimos. No puede hacer reservas de un lapso de tiempo mayor a 30 dias.");
+                                Console.WriteLine("Presione una tecla para continuar");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                for (int i = 0; i < user.Reservas.Count; i++)
+                                {
+                                    //Si la reserva no existe en la lista, se ejecuta el tramite
+                                    if (user.Reservas[i].FechaInicio != fechaInicio || user.Reservas[i].FechaFinal != fechaInicio)
+                                    {
+                                        Reserva newReserva = new Reserva(user.Huesped, hab, fechaInicio, fechaSalida);
+                                        string? response;
+                                        user.Reservas.Add(newReserva);
+                                        try
+                                        {
+                                            hab.FechasReservadas.Add(fechaInicio, fechaSalida);
+                                        }
+                                        catch (ArgumentException ex)
+                                        {
+                                            Console.WriteLine(ex.Message);
+                                        }
+                                        hab.CountReservas += 1;
+                                        //Pago de la reserva
+                                        Console.WriteLine($"El pago es de: ${hab.Tarifa * (int)duracionReserva}\n¿Desea realizar el pago de manera inmediata? Si no, se realizará cuando llegue al hotel:");
+                                        response = Console.ReadLine();
+
+                                        if (response.ToLower() == "si")
+                                        {
+                                            Console.WriteLine("Ingrese el numero de su tarjeta:");
+                                            Console.ReadLine();
+
+                                            //Comprobante de pago en consola
+                                            Console.WriteLine("...");
+                                            Console.ReadKey();
+                                            Console.WriteLine("...");
+                                            Console.ReadKey();
+                                            Console.WriteLine("...");
+                                            Console.ReadKey();
+
+                                            Console.WriteLine("--- Comprobante de Pago de la Reserva ---");
+                                            Console.WriteLine("Cliente:  " + user.Nombre + " " + user.Huesped.Apellidos);
+                                            Console.WriteLine("Fecha de Emisión:  " + DateTime.Now);
+                                            Console.WriteLine("Monto del Pago:  $" + newReserva.PagoReserva.Monto);
+                                            Console.WriteLine("Código de transacción:  1111");
+
+
+                                            newReserva.PagoReserva.FechaPago = DateTime.Now;
+                                            newReserva.PagoReserva.MetodoPago = "Tarjeta";
+                                            newReserva.PagoReserva.RealizacionPago = true;
+
+                                            Console.WriteLine("Pago realizado.");
+                                            Console.WriteLine("Su reserva se ha registrado con exito.");
+                                            Console.WriteLine("Presione una tecla para continuar.");
+                                            Console.ReadKey();
+                                            break;
+                                        }
+                                        else if (response.ToLower() == "no")
+                                        {
+                                            newReserva.PagoReserva.MetodoPago = "Durante Check-In";
+                                            Console.WriteLine("El pago se realizará en la llegada al hotel.");
+                                            Console.WriteLine("Su reserva se ha registrado con exito.");
+                                            Console.WriteLine("Presione una tecla para continuar.");
+                                            Console.ReadKey();
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Algo salió mal durante el registro de la reserva. Presione una tecla e intente nuevamente.");
+                                            Console.ReadKey();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Lo sentimos. La habitación ya fue reservada para esta fecha.");
+                            Console.WriteLine("Presione una tecla para continuar");
+                            Console.ReadKey();
                         }
                     }
                 }
+                if (!lista.Any(h => h.NumHabitacion == numHab))
+                {
+                    Console.WriteLine("El número de habitación ingresado no existe.");
+                    Console.WriteLine("Presione una tecla para continuar");
+                    Console.ReadKey();
+                }
+            } else
+            {
+                Console.WriteLine("La fecha ingresada es inválida. Ingrese una fecha válida.");
+                Console.WriteLine("Presione una tecla para continuar");
+                Console.ReadKey();
             }
         }
 
+        //Modificación de la reserva elegida
         public static void ModificarReserva(Usuario user, List<Habitacion> habitaciones)
         {
+            Console.WriteLine("--- Modificación de reservas ---");
+            //Obtención y parseo de datos
             Console.WriteLine("Ingrese el numero de la reserva que quiere modificar:");
             string? numResString = Console.ReadLine();
-            int numRes = int.Parse(numResString);
 
             Console.WriteLine("Ingrese el número de habitacion en la que se quiere hospedar:");
             string? numHabString = Console.ReadLine();
-            int numHab = int.Parse(numHabString);
 
             Console.WriteLine("Ingrese la fecha de llegada al hotel");
-            DateTime newFechaI = DateTime.Parse(Console.ReadLine());
+            string? newFechaI = Console.ReadLine();
 
             Console.WriteLine("Ingrese la fecha de salida al hotel");
-            DateTime newFechaS = DateTime.Parse(Console.ReadLine());
+            string? newFechaS = Console.ReadLine();
 
-            foreach (Reserva reserva in user.Reservas)
+            if (int.TryParse(numResString, out int numRes))
             {
-                if (reserva.FechaInicio != newFechaI || reserva.FechaFinal != newFechaS)
+                if (int.TryParse(numHabString, out int numHab))
                 {
-                    foreach (Habitacion hab in habitaciones)
+                    if (DateTime.TryParse(newFechaI, out DateTime fechaI) && DateTime.TryParse(newFechaS, out DateTime fechaS))
                     {
-                        if (!hab.FechasReservadas.ContainsKey(newFechaI))
+                        double duracionReservaAct = (fechaS - fechaI).TotalDays;
+                        //Recorriendo la lista de reservas del usuario
+                        foreach (Reserva reserva in user.Reservas)
                         {
-                            reserva.HabitacionElegida = hab;
-                            reserva.FechaInicio = newFechaI;
-                            reserva.FechaFinal = newFechaS;
+                            //Comprobación de que existe la reserva
+                            if (reserva.IdReserva == numRes)
+                            {
+                                //Si la fecha actual es mayor o igual a la ingresada para la llegada
+                                if (fechaI <= DateTime.Now)
+                                {
+                                    Console.WriteLine("No puede reservar para el mismo día o ingresar una fecha pasada.");
+                                    Console.WriteLine("Presione una tecla para continuar");
+                                    Console.ReadKey();
+                                }
+                                //Si la fecha de llegada es mayor o igual a la fecha de salida
+                                else if (fechaS <= fechaI)
+                                {
+                                    Console.WriteLine("La nueva fecha de salida no puede ser anterior a la nueva fecha de llegada");
+                                    Console.WriteLine("Presione una tecla para continuar");
+                                    Console.ReadKey();
+                                }
+                                //Asegurando que el nuevo lapso de estadia no sea mayor a 30 dias
+                                else if ((duracionReservaAct > 30))
+                                {
+                                    Console.WriteLine("Lo sentimos. No puede hacer reservas de un lapso de tiempo mayor a 30 dias.");
+                                    Console.WriteLine("Presione una tecla para continuar");
+                                    Console.ReadKey();
+                                } else { 
+                                    foreach (Habitacion hab in habitaciones)
+                                    {
+                                        //Asegurando que la habitación existe
+                                        if (hab.NumHabitacion == numHab)
+                                        {
+                                            //Asegurando que la habitación no esta reservada para la misma fecha
+                                            if (!hab.FechasReservadas.ContainsKey(fechaI))
+                                            {
+                                                double durResAnterior = (reserva.FechaFinal - reserva.FechaInicio).TotalDays;
+                                                reserva.FechaInicio = fechaI;
+                                                reserva.FechaFinal = fechaS;
 
-                            Console.WriteLine(reserva);
-                            Console.WriteLine("Modificacion completada. Presione una tecla para volver.");
+                                                if (reserva.HabitacionElegida.TipoHabitacion != hab.TipoHabitacion || duracionReservaAct != durResAnterior)
+                                                {
+                                                    int montoAnterior = reserva.PagoReserva.Monto;
+                                                    reserva.PagoReserva.Monto = hab.Tarifa * (int)duracionReservaAct;
+
+                                                    if (montoAnterior > reserva.PagoReserva.Monto)
+                                                    {
+                                                        Console.WriteLine("Con la modificación de la reserva, el precio ha disminuido. Se le reembolsará la diferencia.");
+                                                        Console.WriteLine("Espere un momento.");
+                                                        Console.WriteLine("...");
+                                                        Console.ReadKey();
+                                                        Console.WriteLine("...");
+                                                        Console.ReadKey();
+                                                        Console.WriteLine("...");
+                                                        Console.ReadKey();
+
+                                                        Console.WriteLine("--- Comprobante de Reembolso de la Modificación de la Reserva ---");
+                                                        Console.WriteLine("Cliente:  " + user.Nombre + " " + user.Huesped.Apellidos);
+                                                        Console.WriteLine("Fecha de Emisión:  " + DateTime.Now);
+                                                        Console.WriteLine("Monto del Reembolso:  $" + (montoAnterior - (reserva.PagoReserva.Monto)));
+                                                        Console.WriteLine("Código de transacción:  1111");
+                                                    }
+                                                    else if (montoAnterior < reserva.PagoReserva.Monto)
+                                                    {
+                                                        Console.WriteLine("Con la modificación de la reserva, el precio ha aumentado. Deberá pagar la diferencia.");
+                                                        Console.WriteLine($"El pago es de: ${(hab.Tarifa * (int)duracionReservaAct) - montoAnterior}\n¿Desea realizar el pago de manera inmediata? Si no, se realizará cuando llegue al hotel:");
+                                                        string? response = Console.ReadLine();
+
+                                                        if (response.ToLower() == "si" && reserva.PagoReserva.MetodoPago == "Tarjeta")
+                                                        {
+                                                            Console.WriteLine("Ingrese el numero de su tarjeta:");
+                                                            Console.ReadLine();
+
+                                                            //Comprobante de pago en consola
+                                                            Console.WriteLine("...");
+                                                            Console.ReadKey();
+                                                            Console.WriteLine("...");
+                                                            Console.ReadKey();
+                                                            Console.WriteLine("...");
+                                                            Console.ReadKey();
+
+                                                            Console.WriteLine("--- Comprobante de Pago de la Modificación de la Reserva ---");
+                                                            Console.WriteLine("Cliente:  " + user.Nombre + " " + user.Huesped.Apellidos);
+                                                            Console.WriteLine("Fecha de Emisión:  " + DateTime.Now);
+                                                            Console.WriteLine("Monto del Pago:  $" + ((reserva.PagoReserva.Monto) - montoAnterior));
+                                                            Console.WriteLine("Código de transacción:  1111");
+                                                            Console.ReadKey();
+
+                                                            Console.WriteLine("\nPago realizado.");
+                                                            Console.WriteLine("Presione una tecla para continuar.");
+                                                            Console.ReadKey();
+                                                        }
+                                                        else if (response.ToLower() == "no" && reserva.PagoReserva.MetodoPago == "Tarjeta")
+                                                        {
+                                                            reserva.PagoReserva.MetodoPago = "Diferencia Durante Check-In";
+                                                            Console.WriteLine("El pago por la diferencia se realizará en la llegada al hotel.");
+                                                            Console.WriteLine("Presione una tecla para continuar.");
+                                                            Console.ReadKey();
+                                                        }
+                                                        else if (reserva.PagoReserva.MetodoPago == "Durante Check-In")
+                                                        {
+                                                            Console.WriteLine("El pago de su reserva fue registrado para finalizarse en el Check-In");
+                                                            Console.WriteLine("El pago completo, con el aumento de la modificación, se realizará en la llegada al hotel.");
+                                                            Console.WriteLine("Presione una tecla para continuar.");
+                                                            Console.ReadKey();
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.WriteLine("Algo salió mal durante el proceso. Presione una tecla e intente nuevamente.");
+                                                            Console.ReadKey();
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
+                                                reserva.HabitacionElegida = hab;
+
+                                                Console.WriteLine(reserva);
+                                                Console.WriteLine("Modificacion completada. Presione una tecla para volver.");
+                                                Console.ReadKey();
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("La habitación ya esta ocupada para la fecha ingresada. Presione una tecla para volver.");
+                                                Console.ReadKey();
+                                            }
+                                        }
+                                    }
+                                    if (!habitaciones.Any(h => h.NumHabitacion == numHab))
+                                    {
+                                        Console.WriteLine("El número de habitación ingresado no existe en el sistema.");
+                                        Console.WriteLine("Presione una tecla para continuar");
+                                        Console.ReadKey();
+                                    }
+                                }
+                            }
+                        }
+                        if (!user.Reservas.Any(r => r.IdReserva == numRes))
+                        {
+                            Console.WriteLine("El número de reserva ingresado no existe en el sistema.");
+                            Console.WriteLine("Presione una tecla para continuar");
                             Console.ReadKey();
-                            break;
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("Los datos ingresados para las nuevas fechas no son válidos. Ingrese fechas válidas.");
+                        Console.WriteLine("Presione una tecla para intentar nuevamente.");
+                        Console.ReadKey();
+                    }
                 }
+                else
+                {
+                    Console.WriteLine("El dato ingresado para el número de habitación es inválido. Por favor, ingrese un número.");
+                    Console.WriteLine("Presione una tecla para continuar");
+                    Console.ReadKey();
+                }
+            } else
+            {
+                Console.WriteLine("El dato ingresado para el número de reserva es inválido. Por favor, ingrese un número.");
+                Console.WriteLine("Presione una tecla para continuar");
+                Console.ReadKey();
             }
         }
 
         public static void CancelarReserva(Usuario user)
         {
+            Console.WriteLine("--- Cancelación de reservas ---");
             Console.WriteLine("Ingrese el numero de la reserva que quiere cancelar:");
             string? numResString = Console.ReadLine();
-            int numRes = int.Parse(numResString);
 
             //Obteniendo la reserva elegida
-            for (int i = 0; i < user.Reservas.Count; i++)
+            if (int.TryParse(numResString, out int numRes))
             {
-                if (user.Reservas[i].IdReserva == numRes)
+                for (int i = 0; i < user.Reservas.Count; i++)
                 {
-                    Console.WriteLine("Reserva obtenida");
-                    Console.ReadKey();
-                    if (user.Reservas[i].FechaInicio < DateTime.Now)
+                    if (user.Reservas[i].IdReserva == numRes)
                     {
-                        Console.WriteLine("Lo sentimos. No puede cancelar la reserva debido a que ya transcurrio la fecha limite   .");
-                    }
-                    else
-                    {
-                        string? response;
-                        //Cancelando la reserva
-                        Console.WriteLine("¿Esta seguro de cancelar esta reserva?");
-                        response = Console.ReadLine();
-
-                        if (response.ToLower() == "si")
+                        Console.WriteLine("Reserva obtenida");
+                        Console.ReadKey();
+                        if (user.Reservas[i].FechaInicio < DateTime.Now)
                         {
-                            user.Reservas.Remove(user.Reservas[i]);
-                            Console.WriteLine("Reserva cancelada y eliminada de la lista. Presione una tecla para volver.");
-                            Console.ReadKey();
+                            Console.WriteLine("Lo sentimos. No puede cancelar la reserva debido a que ya transcurrio la fecha limite.");
                         }
-                        else if (response.ToLower() != "no" || response.ToLower() != "si")
+                        else
                         {
-                            Console.WriteLine("Por favor, responda 'si' o 'no' a la pregunta. Presione una tecla para intentar nuevamente.");
-                            Console.ReadKey();
+                            string? response;
+                            //Cancelando la reserva
+                            Console.WriteLine("¿Esta seguro de cancelar esta reserva? Responda 'si' o 'no':");
+                            response = Console.ReadLine();
+
+                            if (response.ToLower() == "si")
+                            {
+                                user.Reservas.Remove(user.Reservas[i]);
+                                Console.WriteLine("Reserva cancelada y eliminada de la lista. Presione una tecla para volver.");
+                                Console.ReadKey();
+                            }
+                            else if (response.ToLower() != "no" || response.ToLower() != "si")
+                            {
+                                Console.WriteLine("Algo salió mal durante la cancelacion de la reserva. Asegurese de responder 'si' o 'no'.\nPresione una tecla para intentar nuevamente.");
+                                Console.ReadKey();
+                            }
                         }
                     }
                 }
+                if (!user.Reservas.Any(r => r.IdReserva == numRes))
+                {
+                    Console.WriteLine("El número de reserva ingresado no existe en el sistema.");
+                    Console.WriteLine("Presione una tecla para continuar");
+                    Console.ReadKey();
+                }
+            } else
+            {
+                Console.WriteLine("El dato ingresado para la reserva es inválido. Ingrese un número para identificar la reserva.");
+                Console.WriteLine("Presione una tecla para intentar nuevamente.");
+                Console.ReadKey();
             }
         }
 
@@ -247,6 +447,7 @@ namespace Obligatorio1
                 Console.WriteLine("Si desea modificar una reserva, presione '1'.");
                 Console.WriteLine("Si desea cancelar una reserva, presione '2'.");
                 Console.WriteLine("Si desea volver al menú principal, presione '3'.");
+                Console.WriteLine("\nIngrese la opción deseada.");
                 string? option = Console.ReadLine();
 
                 switch (option)

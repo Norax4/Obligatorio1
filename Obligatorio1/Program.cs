@@ -6,7 +6,7 @@ List<Huesped> huespedes = GestionHuespedes.CargaHuespedes();
 
 List<Usuario> usuarios = GestionHuespedes.CargaUsuarios(huespedes);
 
-List<Habitacion> habitaciones = GestionHabitaciones.CargaHabitaciones(); //YUJU- recuerda borrar estos comentarios al entregar
+List<Habitacion> habitaciones = GestionHabitaciones.CargaHabitaciones(); 
 
 List<Reserva> reservas = GestionReservas.CargaReservas(habitaciones, usuarios);
 
